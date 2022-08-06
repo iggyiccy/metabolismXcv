@@ -1,55 +1,31 @@
-import { Sound } from "react-sound";
-import { fetchTrackBySlug, ITrack } from "@spinamp/spinamp-sdk";
+import ReactSound, { ReactSoundProps } from "react-sound";
+import { ICollectionTrack, useCollectionQuery } from "@spinamp/spinamp-hooks";
 import { FC, useState } from "react";
 
-// fetchTrackBySlug("Way Of The DAO").then((track: ITrack | null) => {
-//   console.log(track);
-// });
-
-interface SpinampPlayerProps
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > {}
-
-const SpinampPlayer: FC<SpinampPlayerProps> = ({ ...props }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [soundStatus, setSoundStatus] = useState(Sound.status.STOPPED);
+const SpinampPlayer = () => {
+  const [soundStatus, setSoundStatus] =
+    useState<ReactSoundProps["playStatus"]>("PLAYING");
   const toggle = () => {
-    setIsPlaying(
-      setSoundStatus(() => {
-        if (soundStatus === Sound.status.PLAYING) {
-          const isPlaying = Sound.status.PAUSED;
-          return isPlaying;
-        } else {
-          const isPlaying = Sound.status.PLAYING;
-          return isPlaying;
-        }
-      })
+    setSoundStatus((status: string) =>
+      status === "STOPPED" ? "PLAYING" : "STOPPED"
     );
   };
-  // const trackUrl = fetchTrackBySlug("Way Of The DAO").lossyAudioUrl;
-  // .then(
-  // (track: ITrack.lossyAudioUrl | null) => {
-  //   console.log(track);
-  // }
-  // );
+  const { collection } = useCollectionQuery(
+    "0x267aC7fda523066DA091a1A34826179B202f6081"
+  );
   return (
     <div>
-      <Sound
-        url="https://storageapi.fleek.co/iggyiccy-team-bucket/metabolismcv/bg_music.mp3"
-        playStatus={soundStatus}
-        autoload={true}
-        loop={true}
-      />
+      {collection.map((track) => (
+        <ReactSound
+          key={track.id}
+          url={track.lossyAudioUrl}
+          playStatus={soundStatus}
+          autoLoad={true}
+          loop={true}
+        />
+      ))}
       <div
-        className="header--brand flex row-direction icons"
-        style={{
-          position: "absolute",
-          bottom: "0",
-          left: "0",
-          padding: 20,
-        }}
+        className="bottom-0 left-0 absolute px-5 py-5 z-500"
         onClick={toggle}
       >
         <img
