@@ -1,4 +1,0 @@
-[submodule "cv-client"]
-	path = cv-client
-	url = git@github.com-work:CultureVault/cv-client.git
-	branch = dev
