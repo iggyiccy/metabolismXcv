@@ -20,7 +20,7 @@ const SpinampPlayer = () => {
           key={track.id}
           url={track.lossyAudioUrl}
           playStatus={soundStatus}
-          autoLoad={true}
+          autoLoad={false}
           loop={true}
         />
       ))}

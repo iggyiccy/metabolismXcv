@@ -1,0 +1,3 @@
+[submodule "zora-drops-contracts"]
+	path = zora-drops-contracts
+	url = git@github.com:ourzora/zora-drops-contracts.git
